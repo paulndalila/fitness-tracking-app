@@ -5,22 +5,20 @@ import React, { useEffect, useState } from "react";
 export default function Exercise() {
   const { name, image } = useLocalSearchParams();
   const navigation = useNavigation();
-  const [time, setTime] = useState(0); // Time in milliseconds
+  const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-  // Set the header title dynamically
   useEffect(() => {
     if (name) {
       navigation.setOptions({ title: name });
     }
   }, [name, navigation]);
 
-  // Timer logic
   useEffect(() => {
     let interval;
     if (isRunning) {
       interval = setInterval(() => {
-        setTime((prev) => prev + 10); // Increment by 10ms
+        setTime((prev) => prev + 10);
       }, 10);
     } else {
       clearInterval(interval);

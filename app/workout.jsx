@@ -75,7 +75,6 @@ export default function Workout() {
 
   return (
     <View style={styles.container}>
-      {/* Title with Icon */}
       <Animated.View
         style={styles.header}
         entering={FadeInUp.duration(800).springify()}
@@ -86,7 +85,6 @@ export default function Workout() {
         </Animated.Text>
       </Animated.View>
 
-      {/* Grid of Exercise Cards */}
       <FlatList
         data={exercises}
         numColumns={2}

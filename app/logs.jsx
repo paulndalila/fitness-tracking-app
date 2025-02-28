@@ -15,8 +15,6 @@ const workoutLogs = [
 
 export default function Logs() {
   const navigation = useNavigation();
-
-  // trigger on component mount
   useEffect(() => {
     navigation.setOptions({ title: "Exercise Logs!" });
   }, []);

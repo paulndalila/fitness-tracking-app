@@ -6,7 +6,6 @@ import { useNavigation } from "expo-router";
 export default function Progress() {
   const navigation = useNavigation();
 
-  // trigger on component mount
   useEffect(() => {
     navigation.setOptions({ title: "Your Progress this Week!" });
   }, []);

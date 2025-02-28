@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
   ImageBackground,
 } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
@@ -14,7 +13,7 @@ import dailyBackground from "../assets/images/running.jpg";
 import ProgressCircle from "react-native-progress/Circle";
 
 export default function Daily() {
-  const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(30 * 60);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -34,10 +33,7 @@ export default function Daily() {
   };
 
   return (
-    <ImageBackground
-      source={dailyBackground} // Replace with your preferred image
-      style={styles.background}
-    >
+    <ImageBackground source={dailyBackground} style={styles.background}>
       <LinearGradient
         colors={["rgba(0,0,0,0.8)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.8)"]}
         style={styles.overlay}
@@ -62,7 +58,6 @@ export default function Daily() {
             <Text style={styles.timer}>{formatTime(timeLeft)}</Text>
           </Animated.View>
 
-          {/* Running GIF */}
           <Animated.View
             entering={FadeInUp.delay(300)}
             style={{ marginTop: 20 }}
@@ -77,7 +72,6 @@ export default function Daily() {
             />
           </Animated.View>
 
-          {/* Start, Pause, Reset Buttons */}
           <Animated.View
             entering={FadeInUp.delay(400)}
             style={styles.buttonContainer}

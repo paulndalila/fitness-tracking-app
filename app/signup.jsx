@@ -29,16 +29,13 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      {/* Background Image */}
       <Image source={imageBack} style={styles.image} />
 
-      {/* Dark Gradient Overlay */}
       <LinearGradient
         colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,1)"]}
         style={styles.gradient}
       />
 
-      {/* Hero Section with Animation */}
       <Animated.View
         style={styles.heroContainer}
         entering={FadeInUp.duration(800)}
@@ -50,7 +47,6 @@ const SignUp = () => {
         <Text style={styles.heroSubText}>Elevate Your Fitness Journey</Text>
       </Animated.View>
 
-      {/* Sign Up Form with Fade-in Animation */}
       <Animated.View
         style={styles.formContainer}
         entering={FadeInUp.duration(800)}
@@ -162,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.3)",
   },
   button: {
-    backgroundColor: "#ff6b6b", // Customize color
+    backgroundColor: "#ff6b6b",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

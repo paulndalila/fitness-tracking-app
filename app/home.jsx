@@ -121,8 +121,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: width,
-    height: height * 0.2, // Covers 40% of the screen
-    zIndex: -1,
+    height: height * 0.2,
   },
   backgroundImage: {
     width: "100%",
@@ -132,10 +131,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.4)", // Dark overlay for better contrast
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   heroContainer: {
-    marginTop: height * 0.12, // Adjust to fit inside the image section
+    marginTop: height * 0.12,
     alignItems: "center",
   },
   heroGradient: {

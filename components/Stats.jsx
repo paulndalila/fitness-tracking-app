@@ -3,12 +3,10 @@ import { View, StyleSheet, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 
 const Stats = ({ steps, calories, streak }) => {
-  // Goal values
   const goalSteps = 10000;
   const goalCalories = 600;
   const goalStreak = 7;
 
-  // Calculate progress percentages
   const stepsProgress = (steps / goalSteps) * 100;
   const caloriesProgress = (calories / goalCalories) * 100;
   const streakProgress = (streak / goalStreak) * 100;
