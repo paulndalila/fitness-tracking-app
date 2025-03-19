@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,14 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { MaterialIcons, Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import Footer from "../components/footer";
 import Stats from "../components/Stats";
 import homeBackground from "../assets/images/runn.jpg";
@@ -20,6 +23,42 @@ const { width, height } = Dimensions.get("window");
 
 const HomeScreen = () => {
   const router = useRouter();
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const auth = getAuth();
+    const checkUserSession = async () => {
+      const storedUser = await AsyncStorage.getItem("userSession");
+      if (storedUser) {
+        setUserName(JSON.parse(storedUser).displayName || "User");
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserName(user.displayName || "User");
+        await AsyncStorage.setItem("userSession", JSON.stringify(user));
+      } else {
+        await AsyncStorage.removeItem("userSession");
+        router.replace("/");
+      }
+    });
+
+    checkUserSession();
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      await AsyncStorage.removeItem("userSession");
+      router.replace("/");
+    } catch (error) {
+      Alert.alert("Logout Failed", error.message);
+    }
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -30,7 +69,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Background Image with Overlay */}
+      {/* Background Image */}
       <View style={styles.backgroundWrapper}>
         <Image
           source={homeBackground}
@@ -45,10 +84,20 @@ const HomeScreen = () => {
         style={styles.gradientBackground}
       >
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {/* Header with Logout */}
+          <View style={styles.header}>
+            <Text style={styles.appTitle}>BoostFit</Text>
+            <TouchableOpacity onPress={handleLogout}>
+              <Ionicons name="log-out-outline" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+
           {/* Hero Section */}
           <View style={styles.heroContainer}>
             <View style={styles.heroGradient}>
-              <Text style={styles.heroText}>{getGreeting()}, Koech!</Text>
+              <Text style={styles.heroText}>
+                {getGreeting()}, {userName}!
+              </Text>
               <Text style={styles.heroSubText}>
                 "Get Advanced Results with our Advanced Fitness App!"
               </Text>
@@ -133,8 +182,20 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  appTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "white",
+  },
   heroContainer: {
-    marginTop: height * 0.12,
+    marginTop: height * 0.08,
     alignItems: "center",
   },
   heroGradient: {

@@ -3,14 +3,16 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Image,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../components/firebaseConfig"; // Ensure firebaseConfig.js is set up
 import imageBack from "@/assets/images/man2.jpg";
 import Footer from "../components/footer";
 
@@ -18,9 +20,23 @@ const Index = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    router.push("/home");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/home"); // Navigate to home after successful login
+    } catch (error) {
+      Alert.alert("Login Failed", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const navigateToSignUp = () => {
@@ -69,8 +85,14 @@ const Index = () => {
           secureTextEntry
           placeholderTextColor="#ccc"
         />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>LOGIN</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>
+            {loading ? "Logging in..." : "LOGIN"}
+          </Text>
         </TouchableOpacity>
         <Text style={styles.signupText}>
           Don't have an account?{" "}
@@ -87,27 +109,16 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-  },
-  gradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
+  container: { flex: 1 },
+  image: { position: "absolute", width: "100%", height: "100%" },
+  gradient: { ...StyleSheet.absoluteFillObject },
   heroContainer: {
     position: "absolute",
     top: "40%",
     width: "100%",
     alignItems: "center",
   },
-  heroHeadContainer: {
-    flexDirection: "row",
-    gap: 4,
-  },
+  heroHeadContainer: { flexDirection: "row", gap: 4 },
   heroMainText: {
     fontSize: 32,
     fontWeight: "bold",
@@ -156,16 +167,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
   },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  signupText: {
-    marginTop: 16,
-    textAlign: "center",
-    color: "white",
-  },
+  buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
+  signupText: { marginTop: 16, textAlign: "center", color: "white" },
   signupLink: {
     color: "lightblue",
     fontWeight: "bold",

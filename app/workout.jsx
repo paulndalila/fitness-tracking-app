@@ -69,7 +69,7 @@ export default function Workout() {
   const handlePress = (exercise) => {
     router.push({
       pathname: "/exercise",
-      params: { name: exercise.name, image: exercise.image },
+      params: { eid: exercise.id, name: exercise.name, image: exercise.image },
     });
   };
 

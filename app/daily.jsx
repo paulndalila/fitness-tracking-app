@@ -81,7 +81,7 @@ export default function Daily() {
                 styles.button,
                 { backgroundColor: isRunning ? "#999" : "#FF4500" },
               ]}
-              onPress={() => setIsRunning(false)} //i will turn it on later
+              onPress={() => setIsRunning(true)}
               disabled={isRunning}
             >
               <Text style={styles.buttonText}>

@@ -38,7 +38,11 @@ const Stats = ({ steps, calories, streak }) => {
   return (
     <View>
       <View>
-        <Text style={styles.statsTitle}>Todays Stats</Text>
+        <Text style={styles.statsTitle}>
+          {`Today's Progress - ${new Date().toLocaleDateString("en-US", {
+            weekday: "long",
+          })}`}
+        </Text>
       </View>
       <View style={styles.container}>
         {renderChart("Steps", stepsProgress, steps, goalSteps, "#ff8c00")}

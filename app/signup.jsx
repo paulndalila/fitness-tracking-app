@@ -12,15 +12,46 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import imageBack from "@/assets/images/yoga.jpg";
 import Footer from "../components/footer";
+import { updateProfile } from "firebase/auth";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+} from "../components/firebaseConfig"; // Import Firebase auth
 
 const SignUp = () => {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignUp = () => {
-    router.push("/home");
+  const handleSignUp = async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Update Firebase Auth profile
+      await updateProfile(user, { displayName: name });
+
+      alert("Account created successfully!");
+      router.push("/home");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   const navigateToSignIn = () => {
@@ -52,6 +83,13 @@ const SignUp = () => {
         entering={FadeInUp.duration(800)}
       >
         <Text style={styles.title}>Sign Up</Text>
+        <TextInput
+          placeholder="Full Name"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+          placeholderTextColor="#ccc"
+        />
         <TextInput
           placeholder="Email"
           value={email}
