@@ -33,7 +33,7 @@ const Index = () => {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/home"); // Navigate to home after successful login
     } catch (error) {
-      Alert.alert("Login Failed", error.message);
+      Alert.alert("Login Failed", "Invalid Username or Password");
     } finally {
       setLoading(false);
     }
@@ -85,6 +85,9 @@ const Index = () => {
           secureTextEntry
           placeholderTextColor="#ccc"
         />
+        <View style={styles.fp}>
+          <Text style={styles.fpt}>forgot password?</Text>
+        </View>
         <TouchableOpacity
           style={styles.button}
           onPress={handleLogin}
@@ -159,6 +162,13 @@ const styles = StyleSheet.create({
     color: "white",
     borderRadius: 8,
     backgroundColor: "rgba(0,0,0,0.3)",
+  },
+  fp: {
+    alignItems: "flex-end",
+  },
+  fpt: {
+    color: "#fff",
+    paddingRight: 4,
   },
   button: {
     backgroundColor: "#ff6b6b",
