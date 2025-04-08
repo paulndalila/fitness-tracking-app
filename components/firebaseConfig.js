@@ -6,14 +6,23 @@ import {
 } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import {
+  firebase_apiKey,
+  firebase_authDomain,
+  firebase_projectId,
+  firebase_storageBucket,
+  firebase_messagingSenderId,
+  firebase_appId,
+} from "@env";
+
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDA5f2JTl3FO89L14uUyPs2r7SSw1asfcs",
-  authDomain: "fitness-app-87031.firebaseapp.com",
-  projectId: "fitness-app-87031",
-  storageBucket: "fitness-app-87031.appspot.com",
-  messagingSenderId: "1038081644719",
-  appId: "fitness-app-87031",
+  apiKey: firebase_apiKey,
+  authDomain: firebase_authDomain,
+  projectId: firebase_projectId,
+  storageBucket: firebase_storageBucket,
+  messagingSenderId: firebase_messagingSenderId,
+  appId: firebase_appId,
 };
 
 // Initialize Firebase

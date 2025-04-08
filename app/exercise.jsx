@@ -11,6 +11,7 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import axios from "axios";
 import { Image } from "expo-image";
 import Animated, { FadeIn, FadeInUp, FadeOut } from "react-native-reanimated";
+import { x_rapidapi_key, x_rapidapi_host } from "@env";
 
 export default function Exercise() {
   const { eid } = useLocalSearchParams();
@@ -27,9 +28,8 @@ export default function Exercise() {
           `https://exercisedb.p.rapidapi.com/exercises/exercise/${eid}`,
           {
             headers: {
-              "x-rapidapi-host": "exercisedb.p.rapidapi.com",
-              "x-rapidapi-key":
-                "ad6e9940ddmsh7cf7e0b2fe866d1p1f42bdjsn44776da3eb3d",
+              "x-rapidapi-host": `${x_rapidapi_host}`,
+              "x-rapidapi-key": `${x_rapidapi_key}`,
             },
           }
         );
